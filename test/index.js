@@ -23,9 +23,97 @@ test('Test raw parse', t => {
 });
 
 test('Test comment parse', t => {
-    console.log(JSON.stringify(twig(`asd \n{# @param {int} category_id #}
-{# @param {boolean} search_delivery показывает включена ли галочка "с доставкой" при поиске #}`)));
     t.deepEqual(twig(`{# a simple comment #}`), [
         { type: 'comment', value: 'a simple comment' }
     ]);
+});
+
+test('Include parse with only', t => {
+    t.deepEqual(
+        twig(
+            `{% include "abuses/filters/_prolong.html" with { type: 'ips' } only %}`
+        ),
+        [
+            {
+                type: 'logic',
+                token: {
+                    type: 'Twig.logic.type.include',
+                    only: 4,
+                    ignoreMissing: false,
+                    stack: [
+                        {
+                            type: 'Twig.expression.type.string',
+                            value: 'abuses/filters/_prolong.html'
+                        }
+                    ],
+                    withStack: [
+                        {
+                            type: 'Twig.expression.type.object.start',
+                            value: '{',
+                            match: ['{']
+                        },
+                        {
+                            type: 'Twig.expression.type.operator.binary',
+                            value: ':',
+                            precidence: 16,
+                            associativity: 'rightToLeft',
+                            operator: ':',
+                            key: 'type'
+                        },
+                        { type: 'Twig.expression.type.string', value: 'ips' },
+                        {
+                            type: 'Twig.expression.type.object.end',
+                            value: '}',
+                            match: ['}']
+                        }
+                    ]
+                }
+            }
+        ]
+    );
+});
+
+test('Include parse without only', t => {
+    t.deepEqual(
+        twig(
+            `{% include "abuses/filters/_prolong.html" with { type: 'ips' } %}`
+        ),
+        [
+            {
+                type: 'logic',
+                token: {
+                    type: 'Twig.logic.type.include',
+                    only: false,
+                    ignoreMissing: false,
+                    stack: [
+                        {
+                            type: 'Twig.expression.type.string',
+                            value: 'abuses/filters/_prolong.html'
+                        }
+                    ],
+                    withStack: [
+                        {
+                            type: 'Twig.expression.type.object.start',
+                            value: '{',
+                            match: ['{']
+                        },
+                        {
+                            type: 'Twig.expression.type.operator.binary',
+                            value: ':',
+                            precidence: 16,
+                            associativity: 'rightToLeft',
+                            operator: ':',
+                            key: 'type'
+                        },
+                        { type: 'Twig.expression.type.string', value: 'ips' },
+                        {
+                            type: 'Twig.expression.type.object.end',
+                            value: '}',
+                            match: ['}']
+                        }
+                    ]
+                }
+            }
+        ]
+    );
 });

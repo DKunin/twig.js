@@ -6,12 +6,9 @@
  * @link      https://github.com/twigjs/twig.js
  */
 
-var Twig = {
-    VERSION: '0.10.2'
-};
+var Twig = {};
 
 require('./twig.core')(Twig);
-require('./twig.compiler')(Twig);
 require('./twig.expression')(Twig);
 require('./twig.filters')(Twig);
 require('./twig.functions')(Twig);

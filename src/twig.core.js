@@ -618,6 +618,7 @@ module.exports = function (Twig) {
                 next_token = tokens[0];
                 Twig.log.trace("Compiling token ", token);
                 switch (token.type) {
+                    case Twig.token.type.comment:
                     case Twig.token.type.raw:
                         if (stack.length > 0) {
                             intermediate_output.push(token);
