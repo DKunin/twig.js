@@ -396,9 +396,9 @@ module.exports = function (Twig) {
 
             // Ignore quotes within comments; just look for the next comment close sequence,
             // regardless of what comes before it. https://github.com/justjohn/twig.js/issues/95
-            if (token_def.type === Twig.token.type.comment) {
-              break;
-            }
+            // if (token_def.type === Twig.token.type.comment) {
+            //   break;
+            // }
             // Ignore quotes within raw tag
             // Fixes #283
             if (token_def.type === Twig.token.type.raw) {
@@ -635,10 +635,6 @@ module.exports = function (Twig) {
                         compile_logic.call(self, token);
                         break;
 
-                    // Do nothing, comments should be ignored
-                    case Twig.token.type.comment:
-                        break;
-
                     case Twig.token.type.output:
                         compile_output.call(self, token);
                         break;
@@ -797,6 +793,7 @@ module.exports = function (Twig) {
             Twig.log.debug("Twig.parse: ", "Parsing token: ", token);
 
             switch (token.type) {
+                case Twig.token.type.comment:
                 case Twig.token.type.raw:
                     output.push(Twig.filters.raw(token.value));
                     break;
@@ -816,10 +813,6 @@ module.exports = function (Twig) {
                             output.push(logic.output);
                         }
                     });
-                    break;
-
-                case Twig.token.type.comment:
-                    // Do nothing, comments should be ignored
                     break;
 
                 //Fall through whitespace to output
