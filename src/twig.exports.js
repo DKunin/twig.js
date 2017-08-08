@@ -37,13 +37,11 @@ module.exports = function (Twig) {
                 data: params.data,
                 options: options
             });
-
         } else if (params.ref !== undefined) {
             if (params.id !== undefined) {
                 throw new Twig.Error("Both ref and id cannot be set on a twig.js template.");
             }
             return Twig.Templates.load(params.ref);
-        
         } else if (params.method !== undefined) {
             if (!Twig.Templates.isRegisteredLoader(params.method)) {
                 throw new Twig.Error('Loader for "' + params.method + '" is not defined.');
@@ -52,13 +50,11 @@ module.exports = function (Twig) {
                 options: options
 
             }, params.load, params.error);
-
         } else if (params.href !== undefined) {
             return Twig.Templates.loadRemote(params.href, {
                 options: options
 
             }, params.load, params.error);
-
         } else if (params.path !== undefined) {
             return Twig.Templates.loadRemote(params.path, {
                 options: options
@@ -104,11 +100,11 @@ module.exports = function (Twig) {
         Twig.cache = cache;
     };
 
-    //We need to export the path module so we can effectively test it
+    // We need to export the path module so we can effectively test it
     Twig.exports.path = Twig.path;
 
-    //Export our filters.
-    //Resolves #307
+    // Export our filters.
+    // Resolves #307
     Twig.exports.filters = Twig.filters;
 
     return Twig;

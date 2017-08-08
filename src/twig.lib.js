@@ -7,7 +7,6 @@
 //
 
 module.exports = function(Twig) {
-
     // Namespace for libraries
     Twig.lib = { };
 
@@ -25,24 +24,24 @@ module.exports = function(Twig) {
 
     Twig.lib.is = function(type, obj) {
         if (typeof obj === 'undefined' || obj === null)
-            return false;
+        {return false;}
 
         if (type === 'Array' && Array.isArray)
-            return Array.isArray(obj);
+        {return Array.isArray(obj);}
 
         return toString.call(obj).slice(8, -1) === type;
     };
 
     Twig.lib.isArray = Array.isArray || function(obj) {
         return toString.call(obj).slice(8, -1) === 'Array';
-    }
+    };
 
     // shallow-copy an object
     Twig.lib.copy = function(src) {
         var target = {},
             key;
         for (key in src)
-            target[key] = src[key];
+        {target[key] = src[key];}
 
         return target;
     };

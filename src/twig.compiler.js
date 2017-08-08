@@ -12,9 +12,9 @@ module.exports = function (Twig) {
     // Compile a Twig Template to output.
     Twig.compiler.compile = function(template, options) {
         // Get tokens
-        var tokens = JSON.stringify(template.tokens)
-            , id = template.id
-            , output;
+        var tokens = JSON.stringify(template.tokens),
+            id = template.id,
+            output;
 
         if (options.module) {
             if (Twig.compiler.module[options.module] === undefined) {
@@ -30,21 +30,21 @@ module.exports = function (Twig) {
     Twig.compiler.module = {
         amd: function(id, tokens, pathToTwig) {
             return 'define(["' + pathToTwig + '"], function (Twig) {\n\tvar twig, templates;\ntwig = Twig.twig;\ntemplates = ' + Twig.compiler.wrap(id, tokens) + '\n\treturn templates;\n});';
-        }
-        , node: function(id, tokens) {
-            return 'var twig = require("twig").twig;\n'
-                + 'exports.template = ' + Twig.compiler.wrap(id, tokens)
-        }
-        , cjs2: function(id, tokens, pathToTwig) {
-            return 'module.declare([{ twig: "' + pathToTwig + '" }], function (require, exports, module) {\n'
-                        + '\tvar twig = require("twig").twig;\n'
-                        + '\texports.template = ' + Twig.compiler.wrap(id, tokens)
-                    + '\n});'
+        },
+        node: function(id, tokens) {
+            return 'var twig = require("twig").twig;\n' +
+                'exports.template = ' + Twig.compiler.wrap(id, tokens);
+        },
+        cjs2: function(id, tokens, pathToTwig) {
+            return 'module.declare([{ twig: "' + pathToTwig + '" }], function (require, exports, module) {\n' +
+                        '\tvar twig = require("twig").twig;\n' +
+                        '\texports.template = ' + Twig.compiler.wrap(id, tokens) +
+                    '\n});';
         }
     };
 
     Twig.compiler.wrap = function(id, tokens) {
-        return 'twig({id:"'+id.replace('"', '\\"')+'", data:'+tokens+', precompiled: true});\n';
+        return 'twig({id:"' + id.replace('"', '\\"') + '", data:' + tokens + ', precompiled: true});\n';
     };
 
     return Twig;

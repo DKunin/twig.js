@@ -2,7 +2,6 @@
 //
 // This file handles parsing filters.
 module.exports = function (Twig) {
-
     // Determine object type
     function is(type, obj) {
         var clas = Object.prototype.toString.call(obj).slice(8, -1);
@@ -11,33 +10,33 @@ module.exports = function (Twig) {
 
     Twig.filters = {
         // String Filters
-        upper:  function(value) {
-            if ( typeof value !== "string" ) {
-               return value;
+        upper: function(value) {
+            if (typeof value !== "string") {
+                return value;
             }
 
             return value.toUpperCase();
         },
         lower: function(value) {
-            if ( typeof value !== "string" ) {
-               return value;
+            if (typeof value !== "string") {
+                return value;
             }
 
             return value.toLowerCase();
         },
         capitalize: function(value) {
-            if ( typeof value !== "string" ) {
-                 return value;
+            if (typeof value !== "string") {
+                return value;
             }
 
             return value.substr(0, 1).toUpperCase() + value.toLowerCase().substr(1);
         },
         title: function(value) {
-            if ( typeof value !== "string" ) {
-               return value;
+            if (typeof value !== "string") {
+                return value;
             }
 
-            return value.toLowerCase().replace( /(^|\s)([a-z])/g , function(m, p1, p2){
+            return value.toLowerCase().replace(/(^|\s)([a-z])/g, function(m, p1, p2) {
                 return p1 + p2.toUpperCase();
             });
         },
@@ -82,14 +81,14 @@ module.exports = function (Twig) {
                         var a1, a2;
 
                         // if a and b are comparable, we're fine :-)
-                        if((value[a] > value[b]) == !(value[a] <= value[b])) {
+                        if ((value[a] > value[b]) == !(value[a] <= value[b])) {
                             return value[a] > value[b] ? 1 :
 			           value[a] < value[b] ? -1 :
 				   0;
                         }
                         // if a and b can be parsed as numbers, we can compare
                         // their numeric value
-                        else if(!isNaN(a1 = parseFloat(value[a])) &&
+                        else if (!isNaN(a1 = parseFloat(value[a])) &&
                                 !isNaN(b1 = parseFloat(value[b]))) {
                             return a1 > b1 ? 1 :
 			           a1 < b1 ? -1 :
@@ -97,14 +96,14 @@ module.exports = function (Twig) {
                         }
                         // if one of the values is a string, we convert the
                         // other value to string as well
-                        else if(typeof value[a] == 'string') {
+                        else if (typeof value[a] == 'string') {
                             return value[a] > value[b].toString() ? 1 :
-                                   value[a] < value[b].toString() ? -1 :
+                                value[a] < value[b].toString() ? -1 :
 				   0;
                         }
-                        else if(typeof value[b] == 'string') {
+                        else if (typeof value[b] == 'string') {
                             return value[a].toString() > value[b] ? 1 :
-                                   value[a].toString() < value[b] ? -1 :
+                                value[a].toString() < value[b] ? -1 :
 				   0;
                         }
                         // everything failed - return 'null' as sign, that
@@ -118,15 +117,15 @@ module.exports = function (Twig) {
             }
         },
         keys: function(value) {
-            if (value === undefined || value === null){
+            if (value === undefined || value === null) {
                 return;
-           }
+            }
 
             var keyset = value._keys || Object.keys(value),
                 output = [];
 
             Twig.forEach(keyset, function(key) {
-                if (key === "_keys") return; // Ignore the _keys property
+                if (key === "_keys") {return;} // Ignore the _keys property
                 if (value.hasOwnProperty(key)) {
                     output.push(key);
                 }
@@ -134,7 +133,7 @@ module.exports = function (Twig) {
             return output;
         },
         url_encode: function(value) {
-            if (value === undefined || value === null){
+            if (value === undefined || value === null) {
                 return;
             }
 
@@ -143,7 +142,7 @@ module.exports = function (Twig) {
             return result;
         },
         join: function(value, params) {
-            if (value === undefined || value === null){
+            if (value === undefined || value === null) {
                 return;
             }
 
@@ -159,7 +158,7 @@ module.exports = function (Twig) {
             } else {
                 keyset = value._keys || Object.keys(value);
                 Twig.forEach(keyset, function(key) {
-                    if (key === "_keys") return; // Ignore the _keys property
+                    if (key === "_keys") {return;} // Ignore the _keys property
                     if (value.hasOwnProperty(key)) {
                         output.push(value[key]);
                     }
@@ -171,7 +170,7 @@ module.exports = function (Twig) {
             if (params !== undefined && params.length > 1) {
                 throw new Twig.Error("default filter expects one argument");
             }
-            if (value === undefined || value === null || value === '' ) {
+            if (value === undefined || value === null || value === '') {
                 if (params === undefined) {
                     return '';
                 }
@@ -182,7 +181,7 @@ module.exports = function (Twig) {
             }
         },
         json_encode: function(value) {
-            if(value === undefined || value === null) {
+            if (value === undefined || value === null) {
                 return "null";
             }
             else if ((typeof value == 'object') && (is("Array", value))) {
@@ -196,7 +195,7 @@ module.exports = function (Twig) {
             }
             else if (typeof value == 'object') {
                 var keyset = value._keys || Object.keys(value),
-                output = [];
+                    output = [];
 
                 Twig.forEach(keyset, function(key) {
                     output.push(JSON.stringify(key) + ":" + Twig.filters.json_encode(value[key]));
@@ -230,7 +229,7 @@ module.exports = function (Twig) {
 
             if (is("Array", value)) {
                 Twig.forEach(value, function(val) {
-                    if (obj._keys) obj._keys.push(arr_index);
+                    if (obj._keys) {obj._keys.push(arr_index);}
                     obj[arr_index] = val;
                     arr_index++;
                 });
@@ -258,14 +257,14 @@ module.exports = function (Twig) {
             Twig.forEach(params, function(param) {
                 if (is("Array", param)) {
                     Twig.forEach(param, function(val) {
-                        if (obj._keys) obj._keys.push(arr_index);
+                        if (obj._keys) {obj._keys.push(arr_index);}
                         obj[arr_index] = val;
                         arr_index++;
                     });
                 } else {
                     keyset = param._keys || Object.keys(param);
                     Twig.forEach(keyset, function(key) {
-                        if (!obj[key]) obj._keys.push(key);
+                        if (!obj[key]) {obj._keys.push(key);}
                         obj[key] = param[key];
 
                         var int_key = parseInt(key, 10);
@@ -311,7 +310,7 @@ module.exports = function (Twig) {
         },
 
         replace: function(value, params) {
-            if (value === undefined||value === null){
+            if (value === undefined || value === null) {
                 return;
             }
 
@@ -326,7 +325,7 @@ module.exports = function (Twig) {
         },
 
         format: function(value, params) {
-            if (value === undefined || value === null){
+            if (value === undefined || value === null) {
                 return;
             }
 
@@ -334,7 +333,7 @@ module.exports = function (Twig) {
         },
 
         striptags: function(value) {
-            if (value === undefined || value === null){
+            if (value === undefined || value === null) {
                 return;
             }
 
@@ -342,46 +341,46 @@ module.exports = function (Twig) {
         },
 
         escape: function(value, params) {
-            if (value === undefined|| value === null){
+            if (value === undefined || value === null) {
                 return;
             }
 
             var strategy = "html";
-            if(params && params.length && params[0] !== true)
-                strategy = params[0];
+            if (params && params.length && params[0] !== true)
+            {strategy = params[0];}
 
-            if(strategy == "html") {
+            if (strategy == "html") {
                 var raw_value = value.toString().replace(/&/g, "&amp;")
-                            .replace(/</g, "&lt;")
-                            .replace(/>/g, "&gt;")
-                            .replace(/"/g, "&quot;")
-                            .replace(/'/g, "&#039;");
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
                 return Twig.Markup(raw_value, 'html');
-            } else if(strategy == "js") {
+            } else if (strategy == "js") {
                 var raw_value = value.toString();
                 var result = "";
 
-                for(var i = 0; i < raw_value.length; i++) {
-                    if(raw_value[i].match(/^[a-zA-Z0-9,\._]$/))
-                        result += raw_value[i];
+                for (var i = 0; i < raw_value.length; i++) {
+                    if (raw_value[i].match(/^[a-zA-Z0-9,\._]$/))
+                    {result += raw_value[i];}
                     else {
                         var char_code = raw_value.charCodeAt(i);
 
-                        if(char_code < 0x80)
-                            result += "\\x" + char_code.toString(16).toUpperCase();
+                        if (char_code < 0x80)
+                        {result += "\\x" + char_code.toString(16).toUpperCase();}
                         else
-                            result += Twig.lib.sprintf("\\u%04s", char_code.toString(16).toUpperCase());
+                        {result += Twig.lib.sprintf("\\u%04s", char_code.toString(16).toUpperCase());}
                     }
                 }
 
                 return Twig.Markup(result, 'js');
-            } else if(strategy == "css") {
+            } else if (strategy == "css") {
                 var raw_value = value.toString();
                 var result = "";
 
-                for(var i = 0; i < raw_value.length; i++) {
-                    if(raw_value[i].match(/^[a-zA-Z0-9]$/))
-                        result += raw_value[i];
+                for (var i = 0; i < raw_value.length; i++) {
+                    if (raw_value[i].match(/^[a-zA-Z0-9]$/))
+                    {result += raw_value[i];}
                     else {
                         var char_code = raw_value.charCodeAt(i);
                         result += "\\" + char_code.toString(16).toUpperCase() + " ";
@@ -389,32 +388,32 @@ module.exports = function (Twig) {
                 }
 
                 return Twig.Markup(result, 'css');
-            } else if(strategy == "url") {
+            } else if (strategy == "url") {
                 var result = Twig.filters.url_encode(value);
                 return Twig.Markup(result, 'url');
-            } else if(strategy == "html_attr") {
+            } else if (strategy == "html_attr") {
                 var raw_value = value.toString();
                 var result = "";
 
-                for(var i = 0; i < raw_value.length; i++) {
-                    if(raw_value[i].match(/^[a-zA-Z0-9,\.\-_]$/))
-                        result += raw_value[i];
-                    else if(raw_value[i].match(/^[&<>"]$/))
-                        result += raw_value[i].replace(/&/g, "&amp;")
-                                .replace(/</g, "&lt;")
-                                .replace(/>/g, "&gt;")
-                                .replace(/"/g, "&quot;");
+                for (var i = 0; i < raw_value.length; i++) {
+                    if (raw_value[i].match(/^[a-zA-Z0-9,\.\-_]$/))
+                    {result += raw_value[i];}
+                    else if (raw_value[i].match(/^[&<>"]$/))
+                    {result += raw_value[i].replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;");}
                     else {
                         var char_code = raw_value.charCodeAt(i);
 
                         // The following replaces characters undefined in HTML with
                         // the hex entity for the Unicode replacement character.
-                        if(char_code <= 0x1f && char_code != 0x09 && char_code != 0x0a && char_code != 0x0d)
-                            result += "&#xFFFD;";
-                        else if(char_code < 0x80)
-                            result += Twig.lib.sprintf("&#x%02s;", char_code.toString(16).toUpperCase());
+                        if (char_code <= 0x1f && char_code != 0x09 && char_code != 0x0a && char_code != 0x0d)
+                        {result += "&#xFFFD;";}
+                        else if (char_code < 0x80)
+                        {result += Twig.lib.sprintf("&#x%02s;", char_code.toString(16).toUpperCase());}
                         else
-                            result += Twig.lib.sprintf("&#x%04s;", char_code.toString(16).toUpperCase());
+                        {result += Twig.lib.sprintf("&#x%04s;", char_code.toString(16).toUpperCase());}
                     }
                 }
 
@@ -425,21 +424,21 @@ module.exports = function (Twig) {
         },
 
         /* Alias of escape */
-        "e": function(value, params) {
+        e: function(value, params) {
             return Twig.filters.escape(value, params);
         },
 
         nl2br: function(value) {
-            if (value === undefined || value === null){
+            if (value === undefined || value === null) {
                 return;
             }
             var linebreak_tag = "BACKSLASH_n_replace",
                 br = "<br />" + linebreak_tag;
 
             value = Twig.filters.escape(value)
-                        .replace(/\r\n/g, br)
-                        .replace(/\r/g, br)
-                        .replace(/\n/g, br);
+                .replace(/\r\n/g, br)
+                .replace(/\r/g, br)
+                .replace(/\n/g, br);
 
             value = Twig.lib.replaceAll(value, linebreak_tag, "\n");
 
@@ -455,16 +454,16 @@ module.exports = function (Twig) {
                 dec      = (params && params[1] !== undefined) ? params[1] : ".",
                 sep      = (params && params[2] !== undefined) ? params[2] : ",";
 
-            number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
-            var n = !isFinite(+number) ? 0 : +number,
-                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            number = (String(number)).replace(/[^0-9+\-Ee.]/g, '');
+            var n = !isFinite(Number(number)) ? 0 : Number(number),
+                prec = !isFinite(Number(decimals)) ? 0 : Math.abs(decimals),
                 s = '',
                 toFixedFix = function (n, prec) {
                     var k = Math.pow(10, prec);
-                    return '' + Math.round(n * k) / k;
+                    return String(Math.round(n * k) / k);
                 };
             // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            s = (prec ? toFixedFix(n, prec) : String(Math.round(n))).split('.');
             if (s[0].length > 3) {
                 s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
             }
@@ -476,14 +475,14 @@ module.exports = function (Twig) {
         },
 
         trim: function(value, params) {
-            if (value === undefined|| value === null){
+            if (value === undefined || value === null) {
                 return;
             }
 
-            var str = '' + value,
+            var str = String(value),
                 whitespace;
-            if ( params && params[0] ) {
-                whitespace = '' + params[0];
+            if (params && params[0]) {
+                whitespace = String(params[0]);
             } else {
                 whitespace = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';
             }
@@ -507,7 +506,7 @@ module.exports = function (Twig) {
                 preserve = false,
                 separator = '...';
 
-            value =  value + '';
+            value =  String(value);
             if (params) {
                 if (params[0]) {
                     length = params[0];
@@ -521,7 +520,6 @@ module.exports = function (Twig) {
             }
 
             if (value.length > length) {
-
                 if (preserve) {
                     length = value.indexOf(' ', length);
                     if (length === -1) {
@@ -548,7 +546,7 @@ module.exports = function (Twig) {
             // default to length of string
             var length = params.length > 1 ? params[1] : value.length;
             // handle negative start values
-            var startIndex = start >= 0 ? start : Math.max( value.length + start, 0 );
+            var startIndex = start >= 0 ? start : Math.max(value.length + start, 0);
 
             if (Twig.lib.is("Array", value)) {
                 var output = [];
@@ -578,7 +576,7 @@ module.exports = function (Twig) {
                 if ('_keys' in value) {
                     return value[value._keys[0]];
                 }
-            } else if ( typeof value === "string" ) {
+            } else if (typeof value === "string") {
                 return value.substr(0, 1);
             }
 
@@ -598,15 +596,10 @@ module.exports = function (Twig) {
                     split = value.split(delimiter);
 
                 if (limit === undefined) {
-
                     return split;
-
                 } else if (limit < 0) {
-
                     return value.split(delimiter, split.length + limit);
-
                 } else {
-
                     var limitedSplit = [];
 
                     if (delimiter == '') {
@@ -614,20 +607,19 @@ module.exports = function (Twig) {
                         // "aabbcc"|split('', 2)
                         //     -> ['aa', 'bb', 'cc']
 
-                        while(split.length > 0) {
+                        while (split.length > 0) {
                             var temp = "";
-                            for (var i=0; i<limit && split.length > 0; i++) {
+                            for (var i = 0; i < limit && split.length > 0; i++) {
                                 temp += split.shift();
                             }
                             limitedSplit.push(temp);
                         }
-
                     } else {
                         // non-empty delimiter
                         // "one,two,three,four,five"|split(',', 3)
                         //     -> ['one', 'two', 'three,four,five']
 
-                        for (var i=0; i<limit-1 && split.length > 0; i++) {
+                        for (var i = 0; i < limit - 1 && split.length > 0; i++) {
                             limitedSplit.push(split.shift());
                         }
 
@@ -638,7 +630,6 @@ module.exports = function (Twig) {
 
                     return limitedSplit;
                 }
-
             } else {
                 throw new Twig.Error("split filter expects value to be a string");
             }
@@ -702,7 +693,7 @@ module.exports = function (Twig) {
 
             value = parseFloat(value);
 
-            if(precision && !Twig.lib.is("Number", precision)) {
+            if (precision && !Twig.lib.is("Number", precision)) {
                 throw new Twig.Error("round filter expects precision to be a number");
             }
 
@@ -710,7 +701,7 @@ module.exports = function (Twig) {
                 return Twig.lib.round(value, precision);
             }
 
-            if(!Twig.lib.is("Function", Math[method])) {
+            if (!Twig.lib.is("Function", Math[method])) {
                 throw new Twig.Error("round filter expects method to be 'floor', 'ceil', or 'common'");
             }
 
@@ -730,5 +721,4 @@ module.exports = function (Twig) {
     };
 
     return Twig;
-
 };

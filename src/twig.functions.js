@@ -69,7 +69,7 @@ module.exports = function (Twig) {
         dump: function() {
             // Don't pass arguments to `Array.slice`, that is a performance killer
             var args_i = arguments.length; args = new Array(args_i);
-            while(args_i-- > 0) args[args_i] = arguments[args_i];
+            while (args_i-- > 0) {args[args_i] = arguments[args_i];}
 
             var EOL = '\n',
                 indentChar = '  ',
@@ -114,7 +114,7 @@ module.exports = function (Twig) {
                                 }
                             }
                             return size;
-                        })(variable) + ') {' + EOL;
+                        }(variable)) + ') {' + EOL;
                         for (i in variable) {
                             out += indent(indentTimes) + '[' + i + ']=> ' + EOL;
                             displayVar(variable[i]);
@@ -127,7 +127,7 @@ module.exports = function (Twig) {
                 };
 
             // handle no argument case by dumping the entire render context
-            if (args.length == 0) args.push(this.context);
+            if (args.length == 0) {args.push(this.context);}
 
             Twig.forEach(args, function(variable) {
                 dumpVar(variable);
@@ -182,16 +182,16 @@ module.exports = function (Twig) {
             return object[method] || undefined;
         },
         max: function(values) {
-            if(Twig.lib.is("Object", values)) {
-                delete values["_keys"];
+            if (Twig.lib.is("Object", values)) {
+                delete values._keys;
                 return Twig.lib.max(values);
             }
 
             return Twig.lib.max.apply(null, arguments);
         },
         min: function(values) {
-            if(Twig.lib.is("Object", values)) {
-                delete values["_keys"];
+            if (Twig.lib.is("Object", values)) {
+                delete values._keys;
                 return Twig.lib.min(values);
             }
 
@@ -216,24 +216,24 @@ module.exports = function (Twig) {
                 return min + Math.floor((max - min + 1) * random / LIMIT_INT31);
             }
 
-            if(Twig.lib.is("Number", value)) {
+            if (Twig.lib.is("Number", value)) {
                 return getRandomNumber(value);
             }
 
-            if(Twig.lib.is("String", value)) {
-                return value.charAt(getRandomNumber(value.length-1));
+            if (Twig.lib.is("String", value)) {
+                return value.charAt(getRandomNumber(value.length - 1));
             }
 
-            if(Twig.lib.is("Array", value)) {
-                return value[getRandomNumber(value.length-1)];
+            if (Twig.lib.is("Array", value)) {
+                return value[getRandomNumber(value.length - 1)];
             }
 
-            if(Twig.lib.is("Object", value)) {
+            if (Twig.lib.is("Object", value)) {
                 var keys = Object.keys(value);
-                return value[keys[getRandomNumber(keys.length-1)]];
+                return value[keys[getRandomNumber(keys.length - 1)]];
             }
 
-            return getRandomNumber(LIMIT_INT31-1);
+            return getRandomNumber(LIMIT_INT31 - 1);
         },
 
         /**
@@ -249,9 +249,9 @@ module.exports = function (Twig) {
             var loader;
             var path;
 
-            //if we are running in a node.js environment, set the loader to 'fs' and ensure the
+            // if we are running in a node.js environment, set the loader to 'fs' and ensure the
             // path is relative to the CWD of the running script
-            //else, set the loader to 'ajax' and set the path to the value of name
+            // else, set the loader to 'ajax' and set the path to the value of name
             if (isNodeEnvironment) {
                 loader = 'fs';
                 path = __dirname + '/' + name;
@@ -260,7 +260,7 @@ module.exports = function (Twig) {
                 path = name;
             }
 
-            //build the params object
+            // build the params object
             var params = {
                 id: name,
                 path: path,
@@ -270,21 +270,21 @@ module.exports = function (Twig) {
                 fetchTemplateSource: true
             };
 
-            //default ignore_missing to false
+            // default ignore_missing to false
             if (typeof ignore_missing === 'undefined') {
                 ignore_missing = false;
             }
 
-            //try to load the remote template
+            // try to load the remote template
             //
-            //on exception, log it
+            // on exception, log it
             try {
                 templateSource = Twig.Templates.loadRemote(name, params);
 
-                //if the template is undefined or null, set the template to an empty string and do NOT flip the
+                // if the template is undefined or null, set the template to an empty string and do NOT flip the
                 // boolean indicating we found the template
                 //
-                //else, all is good! flip the boolean indicating we found the template
+                // else, all is good! flip the boolean indicating we found the template
                 if (typeof templateSource === 'undefined' || templateSource === null) {
                     templateSource = '';
                 } else {
@@ -294,10 +294,10 @@ module.exports = function (Twig) {
                 Twig.log.debug('Twig.functions.source: ', 'Problem loading template  ', e);
             }
 
-            //if the template was NOT found AND we are not ignoring missing templates, return the same message
+            // if the template was NOT found AND we are not ignoring missing templates, return the same message
             // that is returned by the PHP implementation of the twig source() function
             //
-            //else, return the template source
+            // else, return the template source
             if (!templateFound && !ignore_missing) {
                 return TEMPLATE_NOT_FOUND_MESSAGE.replace('{name}', name);
             } else {
@@ -318,5 +318,4 @@ module.exports = function (Twig) {
     };
 
     return Twig;
-
 };

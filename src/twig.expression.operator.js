@@ -164,7 +164,7 @@ module.exports = function (Twig) {
                 break;
             case '?':
                 if (a === undefined) {
-                    //An extended ternary.
+                    // An extended ternary.
                     a = b;
                     b = c;
                     c = undefined;
@@ -214,8 +214,8 @@ module.exports = function (Twig) {
                 break;
 
             case '~':
-                stack.push( (a != null ? a.toString() : "")
-                          + (b != null ? b.toString() : "") );
+                stack.push((a != null ? a.toString() : "") +
+                          (b != null ? b.toString() : ""));
                 break;
 
             case 'not':
@@ -280,23 +280,22 @@ module.exports = function (Twig) {
                 break;
 
             case 'not in':
-                stack.push( !containment(a, b) );
+                stack.push(!containment(a, b));
                 break;
 
             case 'in':
-                stack.push( containment(a, b) );
+                stack.push(containment(a, b));
                 break;
 
             case '..':
-                stack.push( Twig.functions.range(a, b) );
+                stack.push(Twig.functions.range(a, b));
                 break;
 
             default:
-                debugger;
+
                 throw new Twig.Error("Failed to parse operator: " + operator + " is an unknown operator.");
         }
     };
 
     return Twig;
-
 };
