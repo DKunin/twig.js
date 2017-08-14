@@ -1223,6 +1223,9 @@ module.exports = function (Twig) {
 
         // Ignore whitespace around expressions.
         expression = expression.trim();
+        if (/elseif\s+(.*)\[\s+/.exec(expression)) {
+            expression = expression.replace(/\n/g, '');
+        }
 
         for (token_template_type in Twig.logic.handler) {
             // Get the type and regex for this template type

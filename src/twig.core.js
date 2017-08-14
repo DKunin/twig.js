@@ -616,6 +616,9 @@ module.exports = function (Twig) {
                 prev_output = output[output.length - 1];
                 prev_intermediate_output = intermediate_output[intermediate_output.length - 1];
                 next_token = tokens[0];
+                if (token.value.includes('elseif item.category.id in')) {
+                    debugger;
+                }
                 Twig.log.trace("Compiling token ", token);
                 switch (token.type) {
                     case Twig.token.type.comment:
