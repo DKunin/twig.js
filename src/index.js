@@ -6,7 +6,7 @@
  * @link      https://github.com/twigjs/twig.js
  */
 
-var Twig = {};
+var Twig = { VERSION: '1.10.6'};
 
 require('./twig.core')(Twig);
 require('./twig.expression')(Twig);
