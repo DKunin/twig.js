@@ -399,6 +399,7 @@ module.exports = function (Twig) {
             }
             // Ignore quotes within raw tag
             // Fixes #283
+            
             if (token_def.type === Twig.token.type.raw) {
                 break;
             }
@@ -616,9 +617,6 @@ module.exports = function (Twig) {
                 prev_output = output[output.length - 1];
                 prev_intermediate_output = intermediate_output[intermediate_output.length - 1];
                 next_token = tokens[0];
-                if (token.value.includes('elseif item.category.id in')) {
-                    debugger;
-                }
                 Twig.log.trace("Compiling token ", token);
                 switch (token.type) {
                     case Twig.token.type.comment:
