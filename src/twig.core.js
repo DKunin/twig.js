@@ -425,7 +425,7 @@ module.exports = function (Twig) {
                         throw "Unclosed string in template";
                     }
                     // Ignore escaped quotes
-                    if (template.substr(end_str_pos - 1, 1) !== "\\") {
+                    if (template.substr(end_str_pos - 1, 1) !== "\\" || template.substr(end_str_pos - 2, 1) === "\\") {
                         offset = end_str_pos + 1;
                         break;
                     } else {

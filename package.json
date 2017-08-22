@@ -2,7 +2,7 @@
   "author": "Dmitri Kunin fork from John Roepke",
   "name": "twig-ast",
   "description": "JS port of the Twig templating language turned into seperate ast builder",
-  "version": "1.10.5",
+  "version": "1.10.6",
   "homepage": "https://github.com/twigjs/twig.js",
   "licenses": [
     {
