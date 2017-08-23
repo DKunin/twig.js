@@ -727,6 +727,7 @@ module.exports = function (Twig) {
                 throw ex;
             }
             else {
+                debugger;
                 Twig.log.error("Error compiling twig template " + self.id + ": ");
                 if (ex.stack) {
                     Twig.log.error(ex.stack);

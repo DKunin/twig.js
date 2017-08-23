@@ -209,7 +209,7 @@ module.exports = function (Twig) {
             type: Twig.expression.type.operator.binary,
             // Match any of ?:, +, *, /, -, %, ~, <, <=, >, >=, !=, ==, **, ?, :, and, b-and, or, b-or, b-xor, in, not in
             // and, or, in, not in can be followed by a space or parenthesis
-            regex: /(^\?\:|^(b\-and)|^(b\-or)|^(b\-xor)|^[\+\-~%\?]|^[\:](?!\d\])|^[!=]==?|^[!<>]=?|^\*\*?|^\/\/?|^(and)[\(|\s+]|^(or)[\(|\s+]|^(in)[\(|\s+]|^(not in)[\(|\s+]|^\.\.)/,
+            regex: /(^\?\:|^(b\-and)|^(b\-or)|^(b\-xor)|^[\+\-~%\?]|^[\:](?!\d\])|^[!=]==?|^[!<>]=?|^\*\*?|^\/\/?|^(and)[\(|\s+]|^(or)[\(|\s+]|^(in)[\(|\s+]|^(not in)[\(|\s+]|^\.\.|^starts\s+with\s+|^ends\s+with\s+|^matches\s+)/,
             next: Twig.expression.set.expressions,
             transform: function(match, tokens) {
                 switch (match[0]) {
@@ -229,6 +229,7 @@ module.exports = function (Twig) {
                 delete token.match;
 
                 token.value = token.value.trim();
+                token.value = token.value.replace(/\s+/, ' ');
                 var value = token.value,
                     operator = Twig.expression.operator.lookup(value, token);
 
