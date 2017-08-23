@@ -1224,7 +1224,7 @@ module.exports = function (Twig) {
         // Ignore whitespace around expressions.
         expression = expression.trim();
 
-        if (/elseif\s+(.*)\[\s+/.exec(expression)) {
+        if (/elseif\s+(.*)\[\s+/.exec(expression) || /for\s+(.*)\s+[^}]+/.exec(expression)) {
             expression = expression.replace(/\n/g, '');
         }
 

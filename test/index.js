@@ -3,7 +3,7 @@
 import test from 'ava';
 import twig from '../';
 
-const parseTwig = (data) => twig.twig({data}).tokens;
+const parseTwig = data => twig.twig({ data }).tokens;
 
 test('Test basic logic parse', t => {
     t.deepEqual(parseTwig(`{% set variable = true %}`), [
@@ -158,6 +158,83 @@ test('Escaping backslashe parse', t => {
                             value: '}',
                             match: ['}']
                         }
+                    ]
+                }
+            }
+        ]
+    );
+});
+
+test('Correctly parse loops with objects', t => {
+    t.deepEqual(
+        parseTwig(
+            `{% for key, value in {
+    'Категория': category
+} %}
+    {{ key }}: {{ value|e }}<br/>
+{% endfor %}`
+        ),
+        [
+            {
+                type: 'logic',
+                token: {
+                    type: 'Twig.logic.type.for',
+                    key_var: 'key',
+                    value_var: 'value',
+                    expression: [
+                        {
+                            type: 'Twig.expression.type.object.start',
+                            value: '{',
+                            match: ['{']
+                        },
+                        {
+                            type: 'Twig.expression.type.operator.binary',
+                            value: ':',
+                            precidence: 16,
+                            associativity: 'rightToLeft',
+                            operator: ':',
+                            key: 'Категория'
+                        },
+                        {
+                            type: 'Twig.expression.type.variable',
+                            value: 'category',
+                            match: ['category']
+                        },
+                        {
+                            type: 'Twig.expression.type.object.end',
+                            value: '}',
+                            match: ['}']
+                        }
+                    ],
+                    output: [
+                        { type: 'raw', value: '    ' },
+                        {
+                            type: 'output',
+                            stack: [
+                                {
+                                    type: 'Twig.expression.type.variable',
+                                    value: 'key',
+                                    match: ['key']
+                                }
+                            ]
+                        },
+                        { type: 'raw', value: ': ' },
+                        {
+                            type: 'output',
+                            stack: [
+                                {
+                                    type: 'Twig.expression.type.variable',
+                                    value: 'value',
+                                    match: ['value']
+                                },
+                                {
+                                    type: 'Twig.expression.type.filter',
+                                    value: 'e',
+                                    match: ['|e', 'e']
+                                }
+                            ]
+                        },
+                        { type: 'raw', value: '<br/>\n' }
                     ]
                 }
             }
