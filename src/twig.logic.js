@@ -1226,8 +1226,12 @@ module.exports = function (Twig) {
 
         // DEBUG
         // console.log(expression);
+        
         if (/elseif\s+(.*)\[\s+/.exec(expression) || /for\s+(.*)\s+[^}]+/.exec(expression)) {
             expression = expression.replace(/\n/g, '');
+        }
+        if (/include\s'.+'\sonly/.exec(expression)) {
+            expression = expression.replace('only', 'with only');
         }
 
         for (token_template_type in Twig.logic.handler) {
