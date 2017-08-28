@@ -1225,8 +1225,8 @@ module.exports = function (Twig) {
         expression = expression.trim();
 
         // DEBUG
-        // console.log(expression);
-        
+        console.log('expression', expression);
+
         if (/elseif\s+(.*)\[\s+/.exec(expression) || /for\s+(.*)\s+[^}]+/.exec(expression)) {
             expression = expression.replace(/\n/g, '');
         }
